@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="home">
+
+    <select id="getList" parameterType="Map" resultType="HashMap" >
+        SELECT *
+        FROM ISTRO_DATA
+        WHERE 1 = 1
+        <if test="name != null and name != ''">
+        	AND NAME LIKE '%${name}%'
+        </if>
+        <if test="role != null and role != ''">
+        	AND ROLE LIKE '%${role}%'
+        </if>
+        <if test="rank != null and rank != ''">
+        	AND RANK LIKE '%${rank}%'
+        </if>
+        ORDER BY REGDT DESC 
+    </select>
+    
+    <select id="existId" parameterType="Map" resultType="HashMap" >
+        SELECT *
+        FROM ISTRO_DATA
+        WHERE ID = #{_id}
+    </select>
+    
+    <insert id="insertData" parameterType="Map" >
+        INSERT INTO ISTRO_DATA (
+        	ID,
+        	NAME,
+        	ROLE,
+        	RANK,
+        	REGDT
+        )
+        VALUES (
+        	#{_id},
+        	#{name},
+        	#{role},
+        	#{rank},
+        	#{regDt}
+        )
+    </insert>
+    
+    <update id="updateData" parameterType="Map" >
+    	UPDATE ISTRO_DATA
+    	SET
+    		NAME = #{name},
+    		ROLE = #{role},
+    		RANK = #{rank},
+    		REGDT = #{regDt}
+    	WHERE
+    		ID = #{_id}
+    </update>
+    
+    <delete id="deleteData" parameterType="Map" >
+    	DELETE FROM ISTRO_DATA
+    	WHERE ID = #{_id}
+    </delete>
+
+</mapper>
